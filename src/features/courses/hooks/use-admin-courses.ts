@@ -3,7 +3,7 @@
 import { useCallback, useEffect, useState } from "react";
 import { HttpError } from "../../common/http";
 import type { Course, CourseInput } from "../domain/course";
-import { createCourse, deleteCourse, getCourses } from "../services/course-service";
+import { createCourse, deleteCourse, getCourses, updateCourse } from "../services/course-service";
 
 export function useAdminCourses() {
   const [courses, setCourses] = useState<Course[]>([]);
@@ -57,5 +57,17 @@ export function useAdminCourses() {
     }
   }, []);
 
-  return { courses, loading, error, deletingId, creating, add, remove, refresh };
+  const edit = useCallback(async (id: number, input: CourseInput) => {
+    setError("");
+    try {
+      const updatedCourse = await updateCourse(id, input);
+      setCourses((current) => current.map((course) => course.id === id ? updatedCourse : course));
+      return true;
+    } catch (reason) {
+      setError(reason instanceof HttpError ? reason.message : "No se pudo actualizar el curso.");
+      return false;
+    }
+  }, []);
+
+  return { courses, loading, error, deletingId, creating, add, edit, remove, refresh };
 }

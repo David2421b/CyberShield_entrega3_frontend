@@ -18,3 +18,11 @@ export async function createCourse(input: CourseInput) {
   });
   return response.data;
 }
+
+export async function updateCourse(id: number, input: CourseInput) {
+  const response = await http<{ data: Course }>(`/api/cursos/${id}`, {
+    method: "PUT",
+    body: JSON.stringify(input),
+  });
+  return response.data;
+}
