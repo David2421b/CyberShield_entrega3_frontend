@@ -1,5 +1,5 @@
 import { http } from "../../common/http";
-import type { CourseCategory, CoursesResponse } from "../domain/course";
+import type { CourseCategory, CourseInput, Course, CoursesResponse } from "../domain/course";
 
 export function getCourses(page: number, category?: CourseCategory, limit = 6) {
   const query = new URLSearchParams({ page: String(page), limit: String(limit) });
@@ -9,4 +9,12 @@ export function getCourses(page: number, category?: CourseCategory, limit = 6) {
 
 export function deleteCourse(id: number) {
   return http<null>(`/api/cursos/${id}`, { method: "DELETE" });
+}
+
+export async function createCourse(input: CourseInput) {
+  const response = await http<{ data: Course }>("/api/cursos", {
+    method: "POST",
+    body: JSON.stringify(input),
+  });
+  return response.data;
 }

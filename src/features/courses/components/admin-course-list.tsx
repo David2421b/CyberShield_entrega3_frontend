@@ -3,9 +3,10 @@
 import Link from "next/link";
 import { useAdminCourses } from "../hooks/use-admin-courses";
 import { ProtectedRoute } from "../../auth/components/protected-route";
+import { CreateCourseForm } from "./create-course-form";
 
 export function AdminCourseList() {
-  const { courses, loading, error, deletingId, remove, refresh } = useAdminCourses();
+  const { courses, loading, error, deletingId, creating, add, remove, refresh } = useAdminCourses();
 
   return <ProtectedRoute role="admin">
     <main className="min-h-screen bg-cyber-bg px-6 py-12">
@@ -15,6 +16,7 @@ export function AdminCourseList() {
           <div><h1 className="text-3xl font-bold text-gray-50">Administración</h1><p className="mt-2 text-cyber-muted">Gestiona el catálogo de CyberShield Academy.</p></div>
           <button type="button" onClick={() => void refresh()} className="rounded-md border border-cyber-border px-4 py-2 text-sm text-gray-100 hover:border-cyber-cyan">Actualizar</button>
         </div>
+        <CreateCourseForm onCreate={add} creating={creating} />
         {error && <p role="alert" className="mb-6 rounded-lg border border-red-500/40 bg-red-500/10 p-4 text-sm text-red-300">{error}</p>}
         {loading && <p className="py-10 text-center text-cyber-cyan" role="status">Cargando cursos…</p>}
         {!loading && courses.length === 0 && !error && <p className="rounded-lg border border-cyber-border bg-cyber-panel p-6 text-center text-cyber-muted">No hay cursos en el catálogo.</p>}

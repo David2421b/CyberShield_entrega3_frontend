@@ -2,14 +2,15 @@
 
 import { useCallback, useEffect, useState } from "react";
 import { HttpError } from "../../common/http";
-import type { Course } from "../domain/course";
-import { deleteCourse, getCourses } from "../services/course-service";
+import type { Course, CourseInput } from "../domain/course";
+import { createCourse, deleteCourse, getCourses } from "../services/course-service";
 
 export function useAdminCourses() {
   const [courses, setCourses] = useState<Course[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [deletingId, setDeletingId] = useState<number | null>(null);
+  const [creating, setCreating] = useState(false);
 
   const refresh = useCallback(async () => {
     setLoading(true);
@@ -41,5 +42,20 @@ export function useAdminCourses() {
     }
   }, []);
 
-  return { courses, loading, error, deletingId, remove, refresh };
+  const add = useCallback(async (input: CourseInput) => {
+    setCreating(true);
+    setError("");
+    try {
+      const course = await createCourse(input);
+      setCourses((current) => [...current, course].sort((a, b) => a.id - b.id));
+      return true;
+    } catch (reason) {
+      setError(reason instanceof HttpError ? reason.message : "No se pudo crear el curso.");
+      return false;
+    } finally {
+      setCreating(false);
+    }
+  }, []);
+
+  return { courses, loading, error, deletingId, creating, add, remove, refresh };
 }

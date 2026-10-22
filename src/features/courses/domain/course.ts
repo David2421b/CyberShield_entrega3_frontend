@@ -12,6 +12,8 @@ export interface Course {
   description: string;
 }
 
+export type CourseInput = Omit<Course, "id" | "slug">;
+
 export interface CoursePagination {
   page: number;
   limit: number;
