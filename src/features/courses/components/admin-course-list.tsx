@@ -6,6 +6,7 @@ import { ProtectedRoute } from "../../auth/components/protected-route";
 import { CreateCourseForm } from "./create-course-form";
 import { EditCourseForm } from "./edit-course-form";
 import { useState } from "react";
+import { AdminEnrollmentsList } from "../../enrollments/components/admin-enrollments-list";
 
 export function AdminCourseList() {
   const { courses, loading, error, deletingId, creating, add, edit, remove, refresh } = useAdminCourses();
@@ -33,6 +34,7 @@ export function AdminCourseList() {
             {editingId === course.id && <div className="mt-4"><EditCourseForm course={course} onSave={edit} onCancel={() => setEditingId(null)} /></div>}
           </li>)}</ul>
         </div>}
+        <AdminEnrollmentsList />
       </div>
     </main>
   </ProtectedRoute>;

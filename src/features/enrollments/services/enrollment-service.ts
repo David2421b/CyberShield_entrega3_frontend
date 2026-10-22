@@ -1,5 +1,5 @@
 import { http } from "../../common/http";
-import type { Enrollment } from "../domain/enrollment";
+import type { AdminEnrollment, Enrollment } from "../domain/enrollment";
 
 export function getMyEnrollments() {
   return http<{ data: Enrollment[] }>("/api/inscripciones/mias");
@@ -10,4 +10,8 @@ export function createEnrollment(input: { courseId: number; message?: string }) 
     method: "POST",
     body: JSON.stringify(input),
   });
+}
+
+export function getAllEnrollments() {
+  return http<{ data: AdminEnrollment[] }>("/api/inscripciones");
 }

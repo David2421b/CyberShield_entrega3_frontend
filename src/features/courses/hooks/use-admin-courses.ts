@@ -2,10 +2,12 @@
 
 import { useCallback, useEffect, useState } from "react";
 import { HttpError } from "../../common/http";
+import { useAuth } from "../../auth/hooks/auth-provider";
 import type { Course, CourseInput } from "../domain/course";
 import { createCourse, deleteCourse, getCourses, updateCourse } from "../services/course-service";
 
 export function useAdminCourses() {
+  const { user, loading: authLoading } = useAuth();
   const [courses, setCourses] = useState<Course[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
@@ -13,6 +15,8 @@ export function useAdminCourses() {
   const [creating, setCreating] = useState(false);
 
   const refresh = useCallback(async () => {
+    if (authLoading) return;
+    if (user?.role !== "admin") { setLoading(false); return; }
     setLoading(true);
     setError("");
     try {
@@ -23,7 +27,7 @@ export function useAdminCourses() {
     } finally {
       setLoading(false);
     }
-  }, []);
+  }, [authLoading, user]);
 
   useEffect(() => { void refresh(); }, [refresh]);
 

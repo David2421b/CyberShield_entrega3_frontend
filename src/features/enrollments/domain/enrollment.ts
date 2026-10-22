@@ -7,3 +7,7 @@ export interface Enrollment {
   createdAt: string;
   course: Course;
 }
+
+export interface AdminEnrollment extends Enrollment {
+  user: { id: string; name: string; email: string };
+}
