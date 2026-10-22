@@ -14,7 +14,7 @@ export function CourseCard({ course }: { course: Course }) {
         </div>
         <div className="flex items-center justify-between">
           <span className="text-lg font-bold text-white">${course.price.toFixed(2)} USD</span>
-          <a href="#contacto" className="rounded-md bg-cyber-cyan px-4 py-2 text-sm font-semibold text-cyber-bg transition hover:-translate-y-0.5 hover:bg-cyber-blue">Inscribirse</a>
+          <a href="#contacto" onClick={() => window.dispatchEvent(new CustomEvent("cybershield:select-course", { detail: course.id }))} className="rounded-md bg-cyber-cyan px-4 py-2 text-sm font-semibold text-cyber-bg transition hover:-translate-y-0.5 hover:bg-cyber-blue">Inscribirse</a>
         </div>
       </div>
     </article>

@@ -1,6 +1,7 @@
 import { CourseCatalog } from "../../courses/components/course-catalog";
 import { SiteFooter } from "./site-footer";
 import { SiteHeader } from "./site-header";
+import { EnrollmentForm } from "../../enrollments/components/enrollment-form";
 
 export function HomePage() {
   return (
@@ -36,12 +37,7 @@ export function HomePage() {
             </div>
           </div>
         </section>
-        <section id="contacto" className="scroll-mt-24 bg-[radial-gradient(circle_at_top,rgba(0,242,254,0.08),transparent_30%),#0a0e17] px-6 py-16 text-center">
-          <h2 className="mb-3 text-3xl font-bold text-gray-50">Formulario de Inscripción</h2>
-          <p className="text-cyber-muted">Solicita tu cupo o pide información sobre nuestros programas formativos.</p>
-          <p className="mt-8 text-sm text-cyber-muted">Para inscribirte, inicia sesión o crea una cuenta.</p>
-          <a className="mt-4 inline-flex rounded-md bg-cyber-cyan px-6 py-3 font-semibold text-cyber-bg hover:bg-cyber-blue" href="/login">Ingresar para inscribirme</a>
-        </section>
+        <EnrollmentForm />
       </main>
       <SiteFooter />
     </>
