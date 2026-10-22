@@ -3,7 +3,7 @@ import { API_BASE_URL } from "./config";
 const TOKEN_KEY = "cybershield_token";
 
 export class HttpError extends Error {
-  constructor(message: string, public readonly status: number) {
+  constructor(message: string, public readonly status: number, public readonly details?: Array<{ field: string; message: string }>) {
     super(message);
     this.name = "HttpError";
   }
@@ -25,7 +25,7 @@ export async function http<T>(path: string, init: RequestInit = {}): Promise<T> 
     }
   }
 
-  const payload = await response.json().catch(() => null) as { error?: string } | null;
-  if (!response.ok) throw new HttpError(payload?.error || "No se pudo completar la solicitud.", response.status);
+  const payload = await response.json().catch(() => null) as { error?: string; details?: Array<{ field: string; message: string }> } | null;
+  if (!response.ok) throw new HttpError(payload?.error || "No se pudo completar la solicitud.", response.status, payload?.details);
   return payload as T;
 }

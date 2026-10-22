@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useState } from "react";
+import { useAuth } from "../../auth/hooks/auth-provider";
 
 const links = [
   { label: "Inicio", href: "#inicio" },
@@ -12,6 +13,7 @@ const links = [
 
 export function SiteHeader() {
   const [menuOpen, setMenuOpen] = useState(false);
+  const { user, loading, logout } = useAuth();
   return (
     <header className="sticky top-0 z-50 border-b border-cyber-border bg-cyber-bg/95 shadow-lg backdrop-blur">
       <div className="mx-auto flex max-w-[1200px] items-center justify-between px-6 py-4">
@@ -22,7 +24,13 @@ export function SiteHeader() {
         <nav className={`${menuOpen ? "block" : "hidden"} absolute left-0 top-full w-full border-b border-cyber-border bg-cyber-panel md:static md:block md:w-auto md:border-0 md:bg-transparent`} aria-label="Navegación principal">
           <ul className="flex flex-col gap-2 p-5 md:flex-row md:items-center md:gap-4 md:p-0">
             {links.map((link) => <li key={link.href}><a onClick={() => setMenuOpen(false)} className="block rounded-full border border-transparent px-4 py-2 text-sm font-medium text-cyber-muted transition hover:border-cyan-400/20 hover:bg-cyber-cyan/5 hover:text-cyber-cyan" href={link.href}>{link.label}</a></li>)}
-            <li><Link href="/login" onClick={() => setMenuOpen(false)} className="block rounded-full border border-cyber-cyan/30 px-4 py-2 text-sm font-semibold text-cyber-cyan hover:bg-cyber-cyan/10">Ingresar</Link></li>
+            {!loading && !user && <li><Link href="/login" onClick={() => setMenuOpen(false)} className="block rounded-full border border-cyber-cyan/30 px-4 py-2 text-sm font-semibold text-cyber-cyan hover:bg-cyber-cyan/10">Ingresar</Link></li>}
+            {!loading && user && <>
+              <li><Link href="/mis-inscripciones" onClick={() => setMenuOpen(false)} className="block rounded-full px-4 py-2 text-sm font-semibold text-cyber-cyan hover:bg-cyber-cyan/10">Mis inscripciones</Link></li>
+              {user.role === "admin" && <li><Link href="/admin" onClick={() => setMenuOpen(false)} className="block rounded-full px-4 py-2 text-sm font-semibold text-cyber-cyan hover:bg-cyber-cyan/10">Administración</Link></li>}
+              <li><span className="block px-4 py-2 text-sm text-gray-200">{user.name}</span></li>
+              <li><button type="button" onClick={() => { logout(); setMenuOpen(false); }} className="rounded-full border border-cyber-border px-4 py-2 text-sm font-semibold text-gray-200 hover:border-red-400 hover:text-red-300">Salir</button></li>
+            </>}
           </ul>
         </nav>
       </div>
