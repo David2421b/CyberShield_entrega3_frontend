@@ -6,3 +6,7 @@ export function getCourses(page: number, category?: CourseCategory, limit = 6) {
   if (category) query.set("category", category);
   return http<CoursesResponse>(`/api/cursos?${query.toString()}`);
 }
+
+export function deleteCourse(id: number) {
+  return http<null>(`/api/cursos/${id}`, { method: "DELETE" });
+}
