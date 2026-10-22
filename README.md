@@ -8,8 +8,9 @@ Frontend de la Entrega 3 de CyberShield Academy, migrado a Next.js App Router, T
 - API de CyberShield disponible (por defecto `http://localhost:4000`)
 
 1. Instala dependencias con `npm install`.
-2. Copia `.env.example` a `.env.local` y configura `NEXT_PUBLIC_API_HOST`.
-3. Inicia el entorno local con `npm run dev`.
+2. Inicia el backend y configura su conexión a PostgreSQL.
+3. Copia `.env.example` a `.env.local`; para desarrollo puedes dejar `NEXT_PUBLIC_API_HOST=http://localhost:4000`.
+4. Inicia el frontend con `npm run dev` y abre `http://localhost:3000`.
 
 ## Catálogo
 
@@ -22,3 +23,12 @@ La estructura de código está organizada por features en `src/features/`. El cl
 El login y el registro consumen la API, conservan la sesión al refrescar y muestran errores junto a los campos. Las rutas `/mis-inscripciones` y `/admin` comprueban la sesión y el rol para redirigir por experiencia de usuario; el backend también protege las operaciones.
 
 El token se guarda en `localStorage`, lo que facilita su uso desde el cliente HTTP y conserva la sesión tras recargar. Esto implica riesgo ante una vulnerabilidad XSS, porque JavaScript podría leerlo; por eso se debe mantener el sitio libre de inyección de scripts y considerar una cookie `HttpOnly` para una evolución posterior.
+
+## Despliegue
+
+El frontend se desplegará en Vercel conectado a este repositorio. En la configuración del proyecto, define `NEXT_PUBLIC_API_HOST` con la URL pública del backend (sin barra al final). En Render o Railway, `FRONTEND_URL` debe coincidir exactamente con el origen de Vercel para que CORS permita las peticiones del navegador.
+
+- Sitio en Vercel: pendiente de desplegar.
+- API en Render/Railway: pendiente de desplegar.
+- Repositorio del frontend: pendiente de publicar en GitHub.
+- Repositorio del backend: pendiente de publicar en GitHub.
