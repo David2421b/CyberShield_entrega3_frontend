@@ -16,7 +16,7 @@ function readLocation() {
   const params = new URLSearchParams(window.location.search);
   const page = Math.max(1, Number(params.get("page")) || 1);
   const categoryValue = params.get("category");
-  const category = categoryValue === "Red Team" || categoryValue === "Blue Team" || categoryValue === "DFIR" ? categoryValue : undefined;
+  const category: CourseCategory | undefined = categoryValue === "Red Team" || categoryValue === "Blue Team" || categoryValue === "DFIR" ? categoryValue : undefined;
   return { page, category };
 }
 
