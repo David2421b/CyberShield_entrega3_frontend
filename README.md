@@ -1,34 +1,98 @@
-# CyberShield Academy
+# CyberShield Academy — Frontend
 
-Frontend de la Entrega 3 de CyberShield Academy, migrado a Next.js App Router, TypeScript y Tailwind CSS. Conserva el contenido y la identidad visual del sitio original, y obtiene los cursos desde la API.
+Frontend de la Entrega 3 de CyberShield Academy. Está construido con Next.js App Router, React, TypeScript y Tailwind CSS. Conserva la identidad visual del sitio original y consulta el catálogo y las inscripciones desde el backend.
 
-## Requisitos y configuración
+## Enlaces de la entrega
 
-- Node.js 20 o posterior
-- API de CyberShield disponible (por defecto `http://localhost:4000`)
+- Sitio desplegado: **pendiente de publicar en Vercel**.
+- API utilizada: **pendiente de desplegar**.
+- Repositorio público del frontend: **pendiente de publicar**.
+- Repositorio público del backend: **pendiente de publicar**.
 
-1. Instala dependencias con `npm install`.
-2. Inicia el backend y configura su conexión a PostgreSQL.
-3. Copia `.env.example` a `.env.local`; para desarrollo puedes dejar `NEXT_PUBLIC_API_HOST=http://localhost:4000`.
-4. Inicia el frontend con `npm run dev` y abre `http://localhost:3000`.
+Reemplaza estos estados por las URLs reales cuando termines la publicación.
 
-## Catálogo
+## Funcionalidades
 
-La portada carga el catálogo desde `GET /api/cursos`. Los filtros y la paginación se consultan en la API; la página actual se guarda en `?page=2` y se pueden compartir enlaces con categoría seleccionada.
+- Catálogo conectado a la API, con filtros por categoría y paginación guardados en la URL.
+- Registro e inicio de sesión con persistencia de sesión al recargar.
+- Formulario de inscripción y página para consultar las solicitudes propias.
+- Panel administrativo para crear, editar y eliminar cursos, y consultar inscripciones.
+- Rutas protegidas por sesión y rol, además de autorización equivalente en el backend.
+- Diseño adaptable para dispositivos móviles y escritorio.
 
-La estructura de código está organizada por features en `src/features/`. El cliente HTTP centralizado se encuentra en `src/features/common/http.ts` y toma el token de `localStorage` cuando existe.
+## Tecnologías
 
-## Sesión y rutas
+- Next.js 15 y React 19.
+- TypeScript.
+- Tailwind CSS.
+- Cliente HTTP centralizado en `src/features/common/http.ts`.
 
-El login y el registro consumen la API, conservan la sesión al refrescar y muestran errores junto a los campos. Las rutas `/mis-inscripciones` y `/admin` comprueban la sesión y el rol para redirigir por experiencia de usuario; el backend también protege las operaciones.
+## Requisitos y ejecución local
 
-El token se guarda en `localStorage`, lo que facilita su uso desde el cliente HTTP y conserva la sesión tras recargar. Esto implica riesgo ante una vulnerabilidad XSS, porque JavaScript podría leerlo; por eso se debe mantener el sitio libre de inyección de scripts y considerar una cookie `HttpOnly` para una evolución posterior.
+- Node.js 20 o posterior y npm.
+- El backend de CyberShield en ejecución con una base de datos configurada.
 
-## Despliegue
+1. Instala las dependencias:
 
-El frontend se desplegará en Vercel conectado a este repositorio. En la configuración del proyecto, define `NEXT_PUBLIC_API_HOST` con la URL pública del backend (sin barra al final). En Render o Railway, `FRONTEND_URL` debe coincidir exactamente con el origen de Vercel para que CORS permita las peticiones del navegador.
+   ```bash
+   npm install
+   ```
 
-- Sitio en Vercel: pendiente de desplegar.
-- API en Render/Railway: pendiente de desplegar.
-- Repositorio del frontend: pendiente de publicar en GitHub.
-- Repositorio del backend: pendiente de publicar en GitHub.
+2. Copia `.env.example` como `.env.local` y configura la URL de la API.
+
+3. Inicia el servidor de desarrollo:
+
+   ```bash
+   npm run dev
+   ```
+
+4. Abre `http://localhost:3000`.
+
+### Variables de entorno
+
+| Variable | Uso |
+| --- | --- |
+| `NEXT_PUBLIC_API_HOST` | URL base pública del backend, sin barra final. En local: `http://localhost:4000`. |
+
+El frontend necesita que el backend esté disponible en esa URL. Si aparece un error de conexión o CORS, revisa `NEXT_PUBLIC_API_HOST` y configura `FRONTEND_URL` en el backend con el origen exacto del frontend.
+
+## Rutas principales
+
+| Ruta | Acceso | Función |
+| --- | --- | --- |
+| `/` | Público | Portada, catálogo, filtros y formulario de inscripción. |
+| `/login` | Público | Inicio de sesión. |
+| `/registro` | Público | Creación de cuenta. |
+| `/mis-inscripciones` | Usuario autenticado | Consulta de solicitudes propias. |
+| `/admin` | Administrador | Gestión de cursos y consulta global de inscripciones. |
+
+El frontend muestra las rutas según la sesión y el rol para orientar la navegación. El backend vuelve a comprobar los permisos en cada operación protegida.
+
+## Organización del código
+
+Las funcionalidades están agrupadas en `src/features/` por dominio (`auth`, `courses`, `enrollments` y `common`). Las páginas de Next.js están en `src/app/`. El cliente HTTP agrega el token de sesión a las peticiones autenticadas y gestiona respuestas `401`.
+
+La sesión se conserva en `localStorage`. Esto facilita las llamadas desde el cliente, pero hace que el token sea accesible para JavaScript; una vulnerabilidad XSS podría exponerlo. Como mejora futura se puede migrar a cookies `HttpOnly` y reforzar las medidas contra XSS.
+
+## Despliegue en Vercel
+
+El despliegue todavía está pendiente. Cuando el backend esté publicado:
+
+1. Importa el repositorio del frontend en Vercel.
+2. Configura `NEXT_PUBLIC_API_HOST` con la URL pública de la API, sin barra final.
+3. Despliega y comprueba que el catálogo cargue desde la API.
+4. Configura `FRONTEND_URL` en el backend con el origen exacto asignado por Vercel para permitir CORS.
+5. Reemplaza los estados de la sección “Enlaces de la entrega” por las URLs definitivas.
+
+## Evidencias de entrega
+
+Agrega las capturas que solicita la guía, incluida una petición autenticada en la pestaña Network del navegador. Antes de compartirla, oculta el valor del token y deja visible el encabezado `Authorization`.
+
+## Explicación para la sustentación
+
+Completa esta sección con tus propias palabras antes de entregar:
+
+- ¿Cómo consume el catálogo los datos de la API y cómo conserva los filtros en la URL?
+- ¿Cómo se controla el acceso a las páginas de usuario y administración?
+- ¿Qué responsabilidad tiene el cliente HTTP centralizado?
+- ¿Qué herramientas de IA utilizaste y qué partes revisaste o modificaste por tu cuenta?
