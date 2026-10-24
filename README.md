@@ -4,12 +4,12 @@ Frontend de la Entrega 3 de CyberShield Academy. Está construido con Next.js Ap
 
 ## Enlaces de la entrega
 
-- Sitio desplegado: **pendiente de publicar en Vercel**.
-- API utilizada: **pendiente de desplegar**.
-- Repositorio público del frontend: **pendiente de publicar**.
-- Repositorio público del backend: **pendiente de publicar**.
+- Sitio desplegado: [cyber-shield-entrega3-frontend.vercel.app](https://cyber-shield-entrega3-frontend.vercel.app).
+- API utilizada: [cybershield-api-un20.onrender.com](https://cybershield-api-un20.onrender.com).
+- Repositorio público del frontend: [CyberShield_entrega3_frontend](https://github.com/David2421b/CyberShield_entrega3_frontend).
+- Repositorio público del backend: [CyberShield_entrega3_backend](https://github.com/David2421b/CyberShield_entrega3_backend).
 
-Reemplaza estos estados por las URLs reales cuando termines la publicación.
+La API expone su comprobación de salud en `/api/health`.
 
 ## Funcionalidades
 
